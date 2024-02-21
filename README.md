@@ -1,12 +1,5 @@
 # Guidance for deploying Remote Desktop Gateway on AWS
 
-The Guidance title should be consistent with the title established first in Alchemy.
-
-**Example:** *Guidance for Product Substitutions on AWS*
-
-This title correlates exactly to the Guidance it’s linked to, including its corresponding sample code repository. 
-
-
 ## Table of Content (required)
 
 List the top-level sections of the README template, along with a hyperlink to the specific section.
@@ -32,14 +25,25 @@ List the top-level sections of the README template, along with a hyperlink to th
 
 ## Overview (required)
 
-1. Provide a brief overview explaining the what, why, or how of your Guidance. You can answer any one of the following to help you write this:
+This Guidance demonstrates how to deploy Remote Desktop Gateway to the AWS Cloud. RD Gateway uses the Remote Desktop Protocol (RDP) over HTTPS to establish an encrypted connection between remote users and Amazon Elastic Compute Cloud (Amazon EC2) instances running Microsoft Windows, without a virtual private network. This helps reduce attacks on your Windows-based instances while providing a remote administration solution for administrators. You can choose to deploy RD Gateway into a new virtual private cloud (VPC) in your AWS account, or into an existing VPC, either standalone or domain-joined.
 
-    - **Why did you build this Guidance?**
-    - **What problem does this Guidance solve?**
+![Remote Desktopn Gateway on AWS](remote-desktop-gateway-on-aws.png)
+*Figure 1: Remote Desktopn Gateway on AWS"
 
-2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
-    - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. 
+As shown in Figure 1, this Guidance sets up the following:
 
+- A highly available architecture that spans two Availability Zones.*
+- A virtual private cloud (VPC) configured with public and private subnets, according to AWS best practices, to provide you with your own virtual network on AWS.*
+- An internet gateway to allow access to the internet. This gateway is used by the RD Gateway instances instances to send and receive traffic.*
+- Managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets.*
+- In the public subnets:
+    - Up to four RD Gateway instances in an Auto Scaling group to provide secure remote access to instances in the private subnets. Each instance is assigned an Elastic IP address so it’s reachable directly from the internet.
+- A Network Load Balancer to provide remote desktop protocol (RDP) access to the RD Gateway configuration instances.
+- A security group for Windows-based instances that will host the RD Gateway instances role, with an ingress rule permitting TCP port 3389 from your administrator IP address. After deployment, you’ll modify the security group ingress rules to configure administrative access through TCP port 443 instead.
+- An empty application tier for instances in private subnets. If more tiers are required, you can create additional private subnets with unique Classless Inter-Domain Routing (CIDR) ranges.
+- AWS Secrets Manager to securely store credentials used for accessing the RD Gateway instances.
+- AWS Systems Manager to automate the deployment of the RD Gateway configuration Auto Scaling group.
+The template that deploys this Guidance into an existing VPC skips the components marked by asterisks above and prompts you for your existing VPC configuration.
 ### Cost
 
 This section is for a high-level cost estimate. Think of a likely straightforward scenario with reasonable assumptions based on the problem the Guidance is trying to solve. If applicable, provide an in-depth cost breakdown table in this section.
