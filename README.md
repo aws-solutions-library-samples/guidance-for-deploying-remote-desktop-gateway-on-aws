@@ -27,6 +27,8 @@ List the top-level sections of the README template, along with a hyperlink to th
 
 This Guidance demonstrates how to deploy Remote Desktop Gateway to the AWS Cloud. RD Gateway uses the Remote Desktop Protocol (RDP) over HTTPS to establish an encrypted connection between remote users and Amazon Elastic Compute Cloud (Amazon EC2) instances running Microsoft Windows, without a virtual private network. This helps reduce attacks on your Windows-based instances while providing a remote administration solution for administrators. You can choose to deploy RD Gateway into a new virtual private cloud (VPC) in your AWS account, or into an existing VPC, either standalone or domain-joined.
 
+![Remote Desktopn Gateway on AWS](remote-desktop-gateway-on-aws.png)
+*Figure 1: Remote Desktopn Gateway on AWS"
 
 As shown in Figure 1, this Guidance sets up the following:
 
