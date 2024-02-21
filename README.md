@@ -6,6 +6,8 @@
     - [Cost](#cost)
 2. [Deployment Options](#deployment-options)
 3. [Deployment Steps](#deployment-steps)
+4. [Cleanup](#cleanup)
+5. [Additional information](#additional-info)
 
 ## Overview
 
@@ -65,3 +67,11 @@ This Guidance provides separate templates for these options. It also lets you co
 8. **Monitor** the stack’s status, and when the status is CREATE_COMPLETE, the RD Gateway deployment is ready.
 
 9. To view the created resources, **choose** the *Outputs* tab.
+
+## Cleanup
+
+From the *Cloudformation Console*, select the stack and select *Delete*. This will delete all artifacts created by the deployment.
+
+## Additional information
+
+See the [Implementation Guide](https://aws-solutions-library-samples.github.io/engineering-design/deploying-remote-desktop-gateway.html) for detailed additional information.
