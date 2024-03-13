@@ -1,34 +1,20 @@
 # Guidance for deploying Remote Desktop Gateway on AWS
 
-## Table of Content (required)
+## Table of Contents
 
-List the top-level sections of the README template, along with a hyperlink to the specific section.
-
-### Required
-
-1. [Overview](#overview-required)
+1. [Overview](#overview)
     - [Cost](#cost)
-2. [Prerequisites](#prerequisites-required)
-    - [Operating System](#operating-system-required)
-3. [Deployment Steps](#deployment-steps-required)
-4. [Deployment Validation](#deployment-validation-required)
-5. [Running the Guidance](#running-the-guidance-required)
-6. [Next Steps](#next-steps-required)
-7. [Cleanup](#cleanup-required)
+2. [Deployment Options](#deployment-options)
+3. [Deployment Steps](#deployment-steps)
+4. [Cleanup](#cleanup)
+5. [Additional information](#additional-info)
 
-***Optional***
-
-8. [FAQ, known issues, additional considerations, and limitations](#faq-known-issues-additional-considerations-and-limitations-optional)
-9. [Revisions](#revisions-optional)
-10. [Notices](#notices-optional)
-11. [Authors](#authors-optional)
-
-## Overview (required)
+## Overview
 
 This Guidance demonstrates how to deploy Remote Desktop Gateway to the AWS Cloud. RD Gateway uses the Remote Desktop Protocol (RDP) over HTTPS to establish an encrypted connection between remote users and Amazon Elastic Compute Cloud (Amazon EC2) instances running Microsoft Windows, without a virtual private network. This helps reduce attacks on your Windows-based instances while providing a remote administration solution for administrators. You can choose to deploy RD Gateway into a new virtual private cloud (VPC) in your AWS account, or into an existing VPC, either standalone or domain-joined.
 
-![Remote Desktopn Gateway on AWS](remote-desktop-gateway-on-aws.png)
-*Figure 1: Remote Desktopn Gateway on AWS"
+![Remote Desktop Gateway on AWS](remote-desktop-gateway-on-aws.png)
+*Figure 1: Remote Desktop Gateway on AWS"
 
 As shown in Figure 1, this Guidance sets up the following:
 
@@ -44,163 +30,48 @@ As shown in Figure 1, this Guidance sets up the following:
 - AWS Secrets Manager to securely store credentials used for accessing the RD Gateway instances.
 - AWS Systems Manager to automate the deployment of the RD Gateway configuration Auto Scaling group.
 The template that deploys this Guidance into an existing VPC skips the components marked by asterisks above and prompts you for your existing VPC configuration.
+
 ### Cost
 
-This section is for a high-level cost estimate. Think of a likely straightforward scenario with reasonable assumptions based on the problem the Guidance is trying to solve. If applicable, provide an in-depth cost breakdown table in this section.
+This product deploys one or more Amazon Elastic Compute Cloud (Amazon EC2) instances running Microsoft Windows Server. The Windows Server licenses are provided by Amazon.
 
-Start this section with the following boilerplate text:
+There is no cost to use this Guidance, but you will be billed for any AWS services or resources that this Guidance deploys.
 
-_You are responsible for the cost of the AWS services used while running this Guidance. As of <month> <year>, the cost for running this Guidance with the default settings in the <Default AWS Region (Most likely will be US East (N. Virginia)) > is approximately $<n.nn> per month for processing ( <nnnnn> records )._
+## Deployment Options
 
-Replace this amount with the approximate cost for running your Guidance in the default Region. This estimate should be per month and for processing/serving resonable number of requests/entities.
+This Guidance provides the following deployment options:
 
+Deploy RD Gateway instances into a new VPC: This option builds a new AWS environment that consists of the VPC, subnets, NAT gateways, security groups, bastion hosts, and other infrastructure components. It then deploys RD Gateway configuration into this new VPC.
+Deploy RD Gateway instances into an existing VPC: This option provisions RD Gateway configuration in your existing AWS infrastructure.
+Deploy domain-joined RD Gateway instances into an existing VPC: This is similar to the option above, except that it provides domain-joined RD Gateway instances in the existing VPC and provides a few additional parameters for customizing this configuration.
+This Guidance provides separate templates for these options. It also lets you configure CIDR blocks, instance types, and RD Gateway instances settings.
 
-## Prerequisites (required)
+## Deployment Steps
 
-### Operating System (required)
+1. **Sign in** to your AWS account, and launch this Guidance, as described under Deployment options. The AWS CloudFormation console opens with a prepopulated template.
 
-- Talk about the base Operating System (OS) and environment that can be used to run or deploy this Guidance, such as *Mac, Linux, or Windows*. Include all installable packages or modules required for the deployment. 
-- By default, assume Amazon Linux 2/Amazon Linux 2023 AMI as the base environment. All packages that are not available by default in AMI must be listed out.  Include the specific version number of the package or module.
+2. **Choose** the correct AWS Region, and then choose *Next*.
 
-**Example:**
-“These deployment instructions are optimized to best work on **<Amazon Linux 2 AMI>**.  Deployment in another OS may require additional steps.”
+3. On the Create stack page, **keep** the default setting for the template URL, and then choose *Next*.
 
-- Include install commands for packages, if applicable.
+4. On the Specify stack details page, **change** the stack name if needed. **Review** the parameters for the template. **Provide** values for the parameters that require input. For all other parameters, **review** the default settings and **customize** them as necessary. When you finish reviewing and customizing the parameters, **choose** *Next*.
 
+**_NOTE:_** Unless you’re customizing the Guidance templates or are instructed otherwise in this guide’s Predeployment section, don’t change the default settings for the following parameters: QSS3BucketName, QSS3BucketRegion, and QSS3KeyPrefix. Changing the values of these parameters will modify code references that point to the Amazon Simple Storage Service (Amazon S3) bucket name and key prefix.
 
-### Third-party tools (If applicable)
+5. On the Configure stack options page, you can **specify** tags (key-value pairs) for resources in your stack and set advanced options. When you finish, **choose** *Next*.
 
-*List any installable third-party tools required for deployment.*
+6. On the Review page, **review** and **confirm** the template settings. Under Capabilities, **select** all of the check boxes to acknowledge that the template creates AWS Identity and Access Management (IAM) resources that might require the ability to automatically expand macros.
 
+7. **Choose** *Create stack*. The stack takes about 20 minutes to deploy.
 
-### AWS account requirements (If applicable)
+8. **Monitor** the stack’s status, and when the status is CREATE_COMPLETE, the RD Gateway deployment is ready.
 
-*List out pre-requisites required on the AWS account if applicable, this includes enabling AWS regions, requiring ACM certificate.*
+9. To view the created resources, **choose** the *Outputs* tab.
 
-**Example:** “This deployment requires you have public ACM certificate available in your AWS account”
+## Cleanup
 
-**Example resources:**
-- ACM certificate 
-- DNS record
-- S3 bucket
-- VPC
-- IAM role with specific permissions
-- Enabling a Region or service etc.
+From the *Cloudformation Console*, select the stack and select *Delete*. This will delete all artifacts created by the deployment.
 
+## Additional information
 
-### aws cdk bootstrap (if sample code has aws-cdk)
-
-<If using aws-cdk, include steps for account bootstrap for new cdk users.>
-
-**Example blurb:** “This Guidance uses aws-cdk. If you are using aws-cdk for first time, please perform the below bootstrapping....”
-
-### Service limits  (if applicable)
-
-<Talk about any critical service limits that affect the regular functioning of the Guidance. If the Guidance requires service limit increase, include the service name, limit name and link to the service quotas page.>
-
-### Supported Regions (if applicable)
-
-<If the Guidance is built for specific AWS Regions, or if the services used in the Guidance do not support all Regions, please specify the Region this Guidance is best suited for>
-
-
-## Deployment Steps (required)
-
-Deployment steps must be numbered, comprehensive, and usable to customers at any level of AWS expertise. The steps must include the precise commands to run, and describe the action it performs.
-
-* All steps must be numbered.
-* If the step requires manual actions from the AWS console, include a screenshot if possible.
-* The steps must start with the following command to clone the repo. ```git clone xxxxxxx```
-* If applicable, provide instructions to create the Python virtual environment, and installing the packages using ```requirement.txt```.
-* If applicable, provide instructions to capture the deployed resource ARN or ID using the CLI command (recommended), or console action.
-
- 
-**Example:**
-
-1. Clone the repo using command ```git clone xxxxxxxxxx```
-2. cd to the repo folder ```cd <repo-name>```
-3. Install packages in requirements using command ```pip install requirement.txt```
-4. Edit content of **file-name** and replace **s3-bucket** with the bucket name in your account.
-5. Run this command to deploy the stack ```cdk deploy``` 
-6. Capture the domain name created by running this CLI command ```aws apigateway ............```
-
-
-
-## Deployment Validation  (required)
-
-<Provide steps to validate a successful deployment, such as terminal output, verifying that the resource is created, status of the CloudFormation template, etc.>
-
-
-**Examples:**
-
-* Open CloudFormation console and verify the status of the template with the name starting with xxxxxx.
-* If deployment is successful, you should see an active database instance with the name starting with <xxxxx> in        the RDS console.
-*  Run the following CLI command to validate the deployment: ```aws cloudformation describe xxxxxxxxxxxxx```
-
-
-
-## Running the Guidance (required)
-
-<Provide instructions to run the Guidance with the sample data or input provided, and interpret the output received.> 
-
-This section should include:
-
-* Guidance inputs
-* Commands to run
-* Expected output (provide screenshot if possible)
-* Output description
-
-
-
-## Next Steps (required)
-
-Provide suggestions and recommendations about how customers can modify the parameters and the components of the Guidance to further enhance it according to their requirements.
-
-
-## Cleanup (required)
-
-- Include detailed instructions, commands, and console actions to delete the deployed Guidance.
-- If the Guidance requires manual deletion of resources, such as the content of an S3 bucket, please specify.
-
-
-
-## FAQ, known issues, additional considerations, and limitations (optional)
-
-
-**Known issues (optional)**
-
-<If there are common known issues, or errors that can occur during the Guidance deployment, describe the issue and resolution steps here>
-
-
-**Additional considerations (if applicable)**
-
-<Include considerations the customer must know while using the Guidance, such as anti-patterns, or billing considerations.>
-
-**Examples:**
-
-- “This Guidance creates a public AWS bucket required for the use-case.”
-- “This Guidance created an Amazon SageMaker notebook that is billed per hour irrespective of usage.”
-- “This Guidance creates unauthenticated public API endpoints.”
-
-
-Provide a link to the *GitHub issues page* for users to provide feedback.
-
-
-**Example:** *“For any feedback, questions, or suggestions, please use the issues tab under this repo.”*
-
-## Revisions (optional)
-
-Document all notable changes to this project.
-
-Consider formatting this section based on Keep a Changelog, and adhering to Semantic Versioning.
-
-## Notices (optional)
-
-Include a legal disclaimer
-
-**Example:**
-*Customers are responsible for making their own independent assessment of the information in this Guidance. This Guidance: (a) is for informational purposes only, (b) represents AWS current product offerings and practices, which are subject to change without notice, and (c) does not create any commitments or assurances from AWS and its affiliates, suppliers or licensors. AWS products or services are provided “as is” without warranties, representations, or conditions of any kind, whether express or implied. AWS responsibilities and liabilities to its customers are controlled by AWS agreements, and this Guidance is not part of, nor does it modify, any agreement between AWS and its customers.*
-
-
-## Authors (optional)
-
-Name of code contributors
+See the [Implementation Guide](https://aws-solutions-library-samples.github.io/engineering-design/deploying-remote-desktop-gateway.html) for detailed additional information.
