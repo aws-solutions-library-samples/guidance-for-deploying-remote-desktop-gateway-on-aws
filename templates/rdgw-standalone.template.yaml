@@ -284,7 +284,7 @@ Resources:
             type: "String"
           QSS3KeyPrefix:
             allowedPattern: '^[a-zA-Z0-9\-\/]+$'
-            default: cfn-ps-microsoft-rdgateway/"
+            default: "cfn-ps-microsoft-rdgateway/"
             description: "S3 key prefix that is used to simulate a directory for your copy of the 
       Quick Start assets. Keep the default prefix unless you are customizing 
       the template. Changing this prefix updates code references to point to 
@@ -672,6 +672,11 @@ Resources:
           FromPort: -1
           ToPort: -1
           CidrIp: !Ref 'RDGWCIDR'
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: 0.0.0.0/0
   ScaleUpEventBridgeResource:
     Type: AWS::Events::Rule
     Properties:

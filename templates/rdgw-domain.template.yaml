@@ -909,6 +909,11 @@ Resources:
           FromPort: -1
           ToPort: -1
           CidrIp: !Ref 'RDGWCIDR'
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: 0.0.0.0/0
   ScaleUpEventBridgeResource:
     Type: AWS::Events::Rule
     Properties:
