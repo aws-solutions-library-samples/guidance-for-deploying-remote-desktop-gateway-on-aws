@@ -4,7 +4,7 @@ Description: >-
   of a Windows based Application infrastructure. It will deploy a Remote Desktop Gateway
   and managed NAT gateways into the public subnet for each Availability
   Zone. **WARNING** This template creates Amazon EC2 Windows instance and related resources. 
-  You will be billed for the AWS resources used if you create a stack from this template. (qs-1qup6rafe)
+  You will be billed for the AWS resources used if you create a stack from this template. (SO9368)
 Metadata:
   cfn-lint: { config: { ignore_checks: [W9004, W9006] } }
   QuickStartDocumentation:

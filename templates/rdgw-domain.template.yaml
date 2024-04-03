@@ -4,7 +4,7 @@ Description: >-
   and an Active Directory domain. It will create an auto-scaling group of RD Gateway
   instances in the public VPC subnets. **WARNING** This template creates Amazon EC2
   Windows instance and related resources. You will be billed for the AWS resources
-  used if you create a stack from this template. (qs-1qup6raf2)
+  used if you create a stack from this template. (SO9368)
 Metadata:
   cfn-lint: { config: { ignore_checks: [W9004, W9006] } }
   QuickStartDocumentation:
