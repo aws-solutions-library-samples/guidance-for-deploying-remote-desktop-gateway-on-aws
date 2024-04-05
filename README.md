@@ -33,9 +33,18 @@ The template that deploys this Guidance into an existing VPC skips the component
 
 ### Cost
 
+_You are responsible for the cost of the AWS services used while running this Guidance. As of April 2024, the cost for running this Guidance with the default settings in the default AWS Region is approximately $ 0.57 per hour._
+
 This product deploys one or more Amazon Elastic Compute Cloud (Amazon EC2) instances running Microsoft Windows Server. The Windows Server licenses are provided by Amazon.
 
-There is no cost to use this Guidance, but you will be billed for any AWS services or resources that this Guidance deploys.
+The following table provides a sample cost breakdown for deploying this Guidance with the default parameters in the US East (N. Virginia) Region for one month.
+
+| AWS service  | Dimensions | Cost [USD] |
+| ----------- | ------------ | ------------ |
+| Amazon EC2 | 1 x t3.2xlarge instance | $ 0.48 hour |
+| Elastic Load Balancing | Application Load Balancer | $ 0.03 hour |
+| Amazon VPC | NAT Gateway | $ 0.05 hour |
+| Amazon VPC | IPv4 Address | $ 0.01 hour |
 
 ## Deployment Options
 
