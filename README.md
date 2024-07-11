@@ -83,4 +83,4 @@ From the *Cloudformation Console*, select the stack and select *Delete*. This wi
 
 ## Additional information
 
-See the [Implementation Guide](https://aws-solutions-library-samples.github.io/engineering-design/deploying-remote-desktop-gateway-on-aws.html) for detailed additional information.
+See the [Implementation Guide](https://aws-solutions-library-samples.github.io/engineering-design/deploying-remote-desktop-gateway-on-aws.html){:target="_blank"} for detailed additional information.
